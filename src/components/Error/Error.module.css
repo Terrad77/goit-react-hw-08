@@ -1,0 +1,9 @@
+.text {
+  margin: 0;
+  color: orangered;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}

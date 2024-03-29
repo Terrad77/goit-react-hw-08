@@ -2,9 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-axios.defaults.baseURL = 'https://65fae8c23909a9a65b1bf52b.mockapi.io';
-
-// отримання масиву контактів
+// отримання масиву контактів, GET @/contacts
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
@@ -23,7 +21,7 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
-//  додавання нового контакту
+//  додавання нового контакту, POST @/contacts
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (newContact, thunkAPI) => {
@@ -36,7 +34,7 @@ export const addContact = createAsyncThunk(
   }
 );
 
-// видалення контакту по ID
+// видалення контакту за ID, DELETE @ /contacts/:id
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {

@@ -4,8 +4,7 @@ import {
   deleteContact,
   fetchContacts,
   updateContact,
-} from './contactsOps';
-import { selectNameFilter } from './filtersSlice';
+} from './operations';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -76,20 +75,5 @@ const contactsSlice = createSlice({
         state.error = true;
       }),
 });
-
-export const selectContacts = state => state.contacts.items; // функція-селектор для useSelector, повертає список контактів з властивості items.
-
-// Використовуємо createSelector для мемоізації
-export const selectVisibleContacts = createSelector(
-  // масив залежностей Перший аргумент - селектор для вибору усіх контактів, Другий аргумент - селектор для вибору фільтра
-  [selectContacts, selectNameFilter],
-
-  (contacts, filter) => {
-    // console.log(selectVisibleContacts);
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  }
-);
 
 export default contactsSlice.reducer;

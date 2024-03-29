@@ -1,7 +1,7 @@
 import css from './SearchBox.module.css';
 import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFilter } from '../../redux/filtersSlice'; // Імпорт екшена зміни фільтра
+import { changeFilter } from '../../redux/filters/slice'; // Імпорт екшена зміни фільтра
 
 //Поле пошуку – це інпут без форми, значення якого записується у стан контрольований елемент,
 //передаємо value -  значення стану, onChange -  (refactoring ) dispatch екшену зміни фільтра

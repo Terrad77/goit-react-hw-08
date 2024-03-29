@@ -1,27 +1,42 @@
 import { configureStore } from '@reduxjs/toolkit';
-import contactsReducer from './contactsSlice'; // Імпорт редюсера контактів
-import filtersReducer from './filtersSlice'; // Імпорт редюсера фільтрів
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
-// початковий стан Redux для кореневого редюсера
-const initialState = {
-  // зміни форму стану слайсу контактів, додавши властивості loading та error.
-  contacts: {
-    items: [], // Початково список контактів пустий
-    loading: false, // Індикатор завантаження (за замовчуванням - вимкнений)
-    error: null, // Початково помилок немає
-  },
-  filters: {
-    name: '',
-  },
+import storage from 'redux-persist/lib/storage';
+// Імпорт редюсера контактів
+import contactsReducer from './contacts/slice';
+// Імпорт редюсера фільтрів
+// import filtersReducer from './contacts/filtersSlice';
+// Імпорт редюсера авторізації
+import authReducer from './auth/slice';
+
+const authPersistConfig = {
+  key: 'authSlice',
+  storage,
+  whitelist: ['token'],
 };
 
-// create store
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+
 export const store = configureStore({
-  reducer:
-    //об'єкт стану
-    {
-      contacts: contactsReducer, // передаємо редюсер контактів
-      filters: filtersReducer, // Додавання редюсера фільтрів до слайсу filters
-    },
-  preloadedState: initialState, // Початковий стан store
+  reducer: {
+    auth: persistedAuthReducer,
+    contacts: contactsReducer,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+export const persistor = persistStore(store);

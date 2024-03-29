@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 //хук унікальних ідентифікаторів полів useId
 import { useId } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsOps';
+import { addContact } from '../../redux/contacts/operations';
 
 // Об'являємо схему валідації об'єкта
 const ContactFormSchema = Yup.object().shape({

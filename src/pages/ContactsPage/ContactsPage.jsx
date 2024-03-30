@@ -1,4 +1,4 @@
-import { css } from '../ContactsPage/ContactsPage.module.css';
+import css from './ContactsPage.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //імпорт копонентів

@@ -10,6 +10,7 @@ const authSlice = createSlice({
     },
     token: null,
     isLoggedIn: false,
+    isRefreshing: false,
   },
   extraReducers: builder =>
     builder

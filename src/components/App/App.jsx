@@ -11,8 +11,8 @@ import { refreshUser } from '../../redux/auth/operations';
 import { RestrictedRoute } from '../RestrictedRoute/RestrictedRoute';
 import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
 
-//імпорт pages
-//динамічний імпорт
+//імпорт pages динамічний
+
 const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
 const RegisterPage = lazy(() =>
   import('../../pages/RegisterPage/RegisterPage')
@@ -20,6 +20,9 @@ const RegisterPage = lazy(() =>
 const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
 const ContactsPage = lazy(() =>
   import('../../pages/ContactsPage/ContactsPage')
+);
+const NotFoundPage = lazy(() =>
+  import('../../pages/NotFoundPage/NotFoundPage')
 );
 
 //бібл стилізації компонентів
@@ -47,7 +50,7 @@ export default function App() {
               element={
                 <RestrictedRoute
                   component={<RegisterPage />}
-                  redirectTo="/tasks"
+                  redirectTo="/contacts"
                 />
               }
             />
@@ -56,12 +59,12 @@ export default function App() {
               element={
                 <RestrictedRoute
                   component={<LoginPage />}
-                  redirectTo="/tasks"
+                  redirectTo="/contacts"
                 />
               }
             />
             <Route
-              path="/tasks"
+              path="/contacts"
               element={
                 <PrivateRoute
                   component={<ContactsPage />}
@@ -69,6 +72,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       )}

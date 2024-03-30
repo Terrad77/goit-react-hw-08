@@ -1,15 +1,15 @@
-import DocumentTitle from '../../components/DocumentTitle/DocumentTitle';
+import PageTitle from '../../components/PageTitle/PageTitle';
 import css from './HomePage.module.css';
 
 export default function Home() {
   return (
     <div className={css.container}>
-      <DocumentTitle>
+      <PageTitle>
         <span role="img" aria-label="Phone icon">
           ☎
         </span>{' '}
         Phonebook welcome page
-      </DocumentTitle>
+      </PageTitle>
     </div>
   );
 }

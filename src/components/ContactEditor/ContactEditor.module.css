@@ -1,8 +1,18 @@
 .form {
   display: flex;
-  width: 100%;
-  gap: 4px;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
   margin-bottom: 12px;
+  background-color: white;
+  padding: 16px;
+  border-radius: 4px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -75px;
 }
 
 .input {
@@ -17,11 +27,15 @@
 }
 
 .button {
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+
   border: none;
   font: inherit;
   cursor: pointer;
   outline: none;
-  padding: 0 8px;
+  padding: 4px 8px;
   border-radius: 4px;
   background-color: #3f51b5;
   color: #fff;

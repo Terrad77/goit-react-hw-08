@@ -10,7 +10,7 @@ export default function SearchBox() {
   const nameFieldId = useId();
 
   // Отримання поточного значення свойства name из слайса filters з Redux store
-  const filterValue = useSelector(state => state.filters.name);
+  const filterValue = useSelector(state => state?.filters?.name);
 
   const handleChange = newValue => {
     dispatch(changeFilter(newValue)); // Відправка екшену зміни фільтра

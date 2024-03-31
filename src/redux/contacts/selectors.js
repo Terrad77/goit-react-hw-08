@@ -1,17 +1,34 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { selectNameFilter } from '../filters/selectors';
 
-export const selectContacts = state => state.contacts.items; // функція-селектор для useSelector, повертає список контактів з властивості items.
+// функція-селектор для useSelector, повертає список контактів з властивості items.
+export const selectContacts = state => state.contacts.items;
 
-// Використовуємо createSelector для мемоізації
+// ф-ція фільтрації, використовуємо createSelector для мемоізації
 export const selectVisibleContacts = createSelector(
-  // масив залежностей Перший аргумент - селектор для вибору усіх контактів, Другий аргумент - селектор для вибору фільтра
+  // селектор для вибору усіх контактів, Перший аргумент - масив залежностей, Другий аргумент - селектор для вибору фільтра
   [selectContacts, selectNameFilter],
 
   (contacts, filter) => {
-    // console.log(selectVisibleContacts);
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+    //умова на перевірку наявності фільтра
+    // if (!filter) {
+    //   return contacts;
+    // }
+    //     return contacts.filter(
+    //       contact =>
+    //         (contact.name && filter
+    //           ? contact.name.toLowerCase().includes(filter.toLowerCase())
+    //           : false) ||
+    //         //пошук контактів за номером телефону
+    //         contact.number.includes(filter)
+    //     );
+    //   }
+    // );
+    return contacts.filter(
+      contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+        //пошук контактів за номером телефону
+        contact.number.includes(filter)
     );
   }
 );

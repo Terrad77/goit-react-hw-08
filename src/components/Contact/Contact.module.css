@@ -33,3 +33,8 @@
   border: 2px solid gray;
   color: red;
 }
+/* styles modal */
+.box {
+  width: 320px;
+  background-color: beige;
+}

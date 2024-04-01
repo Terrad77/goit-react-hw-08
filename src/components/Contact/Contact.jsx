@@ -4,11 +4,12 @@ import { IoPersonSharp } from 'react-icons/io5';
 import { FaPhone } from 'react-icons/fa6';
 
 import { useState } from 'react';
-// import Modal from '../Modal/Modal';
+
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 import { deleteContact, updateContact } from '../../redux/contacts/operations';
 import { useDispatch } from 'react-redux';
 import ContactEditor from '../ContactEditor/ContactEditor';
+// import toast from 'react-hot-toast';
 
 export default function Contact({ id, name, number }) {
   const dispatch = useDispatch(); // Отримання функції dispatch з Redux store
@@ -26,11 +27,15 @@ export default function Contact({ id, name, number }) {
     dispatch(deleteContact(id));
     close(); // Закрити модальне вікно після видалення
   };
+
   //функція обробник редагування контакту
-  const handleEditContact = editedContact => {
-    const updatedContact = { id, ...editedContact };
-    dispatch(updateContact(updatedContact));
-    closeEditModal(); // Закрити модальне вікно після  оновлення
+  const handleEditContact = (id, editedContact) => {
+    const updatedContact = {
+      name: editedContact.name,
+      number: editedContact.number,
+    };
+    dispatch(updateContact({ id, ...updatedContact }));
+    closeEditModal(); // Закрити модальне вікно після успішного оновлення
   };
 
   return (
@@ -46,9 +51,9 @@ export default function Contact({ id, name, number }) {
         </li>
       </ul>
       {/* Кнопка для відкриття модального вікна для редагування контакту */}
-      {/* <button className={css.btn} onClick={openEditModal}>
+      <button className={css.btn} onClick={openEditModal}>
         Edit
-      </button> */}
+      </button>
       {/* Модальне вікно для редагування контакту */}
       <Modal open={isEditModalOpen} onClose={closeEditModal}>
         <div>
@@ -56,6 +61,7 @@ export default function Contact({ id, name, number }) {
           <ContactEditor
             initialValues={{ id, name, number }}
             onSubmit={handleEditContact}
+            onClose={closeEditModal}
           />
         </div>
       </Modal>

@@ -5,6 +5,7 @@ import {
   fetchContacts,
   updateContact,
 } from './operations';
+import { logOut } from '../auth/operations';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -69,8 +70,24 @@ const contactsSlice = createSlice({
           item => item.id === action.payload.id
         );
         state.items[contactIndex] = action.payload;
+        state.error = false;
+        state.loading = false;
       })
       .addCase(updateContact.rejected, state => {
+        state.loading = false;
+        state.error = true;
+      })
+      // Обробка результатів операції logOut
+      .addCase(logOut.pending, state => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.items = []; //очищення колекції контактів у стані при логауті користувача з системи
+        state.error = false;
+        state.loading = false;
+      })
+      .addCase(logOut.rejected, state => {
         state.loading = false;
         state.error = true;
       }),

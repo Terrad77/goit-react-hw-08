@@ -60,9 +60,12 @@ export const deleteContact = createAsyncThunk(
 // оновлення контакту по ID, PATCH   @ /contacts/:id
 export const updateContact = createAsyncThunk(
   'contacts/updateContact',
-  async (update, thunkAPI) => {
+  async ({ id, number, name }, thunkAPI) => {
     try {
-      const response = await axios.patch(`/contacts/${update.id}`, update);
+      const response = await axios.patch(`/contacts/${id}`, {
+        number,
+        name,
+      });
       toast.success('Contact was updated', {
         icon: '👍',
         style: { gap: '5px' },

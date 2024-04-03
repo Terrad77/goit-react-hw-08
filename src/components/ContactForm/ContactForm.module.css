@@ -14,7 +14,6 @@
   color: inherit;
   border: 2px solid;
 }
-
 .btn {
   margin-top: 10px;
   margin-left: auto;
@@ -32,6 +31,7 @@
 .btn:focus {
   background-color: #9999;
   border: 2px solid gray;
+  color: red;
 }
 
 .error {

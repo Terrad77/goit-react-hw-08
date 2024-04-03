@@ -7,3 +7,20 @@
 .username {
   font-weight: 700;
 }
+.btn {
+  width: 80px;
+  background-color: lightgrey;
+  color: black;
+  border: 2px solid lightslategray;
+  padding: 4px 8px;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+.btn:hover,
+.btn:focus {
+  background-color: #9999;
+  border: 2px solid gray;
+  color: red;
+}

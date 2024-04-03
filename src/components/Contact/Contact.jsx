@@ -8,34 +8,37 @@ import { useState } from 'react';
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 import { deleteContact, updateContact } from '../../redux/contacts/operations';
 import { useDispatch } from 'react-redux';
-import ContactEditor from '../ContactEditor/ContactEditor';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export default function Contact({ id, name, number }) {
-  const dispatch = useDispatch(); // Отримання функції dispatch з Redux store
-  const [isOpen, setIsOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState('');
+  const [nameNew, setNameNew] = useState(''); // State for name input
+  const [numberNew, setNumberNew] = useState(''); // State for number input
 
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
-
-  const openEditModal = () => setIsEditModalOpen(true);
-  const closeEditModal = () => setIsEditModalOpen(false);
+  const openDelete = () => setIsOpen('delete');
+  const openEdit = () => setIsOpen('edit');
+  const close = () => setIsOpen('');
 
   //функція обробник видалення контакту
   const handleDelete = () => {
+    // Dispatch deleteContact action
     dispatch(deleteContact(id));
     close(); // Закрити модальне вікно після видалення
   };
 
   //функція обробник редагування контакту
-  const handleEditContact = (id, editedContact) => {
-    const updatedContact = {
-      name: editedContact.name,
-      number: editedContact.number,
-    };
-    dispatch(updateContact({ id, ...updatedContact }));
-    closeEditModal(); // Закрити модальне вікно після успішного оновлення
+  const handleEditContact = e => {
+    e.preventDefault();
+    // Dispatch updateContact action
+    dispatch(updateContact({ id, name: nameNew, number: numberNew }));
+    // Show success toast
+    toast.success('New contact info is saved');
+
+    // Clear input fields after submission
+    setNameNew('');
+    setNumberNew('');
+    close(); // Закрити модалку після успішного оновлення
   };
 
   return (
@@ -50,32 +53,62 @@ export default function Contact({ id, name, number }) {
           {number}
         </li>
       </ul>
-      {/* Кнопка для відкриття модального вікна для редагування контакту */}
-      <button className={css.btn} onClick={openEditModal}>
-        Edit
-      </button>
-      {/* Модальне вікно для редагування контакту */}
-      <Modal open={isEditModalOpen} onClose={closeEditModal}>
+      <div className={css.btnContainer}>
+        <button className={css.btn} onClick={openEdit}>
+          Edit
+        </button>
+        <button className={css.btn} onClick={openDelete}>
+          Delete
+        </button>
+      </div>
+
+      {/* Модальне вікно редагування контакту */}
+      <Modal open={isOpen == 'edit' ? true : false} onClose={close}>
         <div>
-          {/* Форма для редагування контакту */}
-          <ContactEditor
-            initialValues={{ id, name, number }}
-            onSubmit={handleEditContact}
-            onClose={closeEditModal}
-          />
+          <form className={css.form} onSubmit={handleEditContact}>
+            <label htmlFor="name">Name</label>{' '}
+            <input
+              name="name"
+              value={nameNew}
+              onChange={e => setNameNew(e.target.value)}
+              className={css.input}
+            />
+            <label htmlFor="number">Number</label>{' '}
+            <input
+              name="number"
+              value={numberNew}
+              onChange={e => setNumberNew(e.target.value)}
+              className={css.input}
+            />
+            <button type="submit" className={css.button}>
+              Save
+            </button>
+          </form>
         </div>
       </Modal>
-      <button className={css.btn} onClick={open}>
-        Delete
-      </button>
-      <Modal open={isOpen} onClose={close} aria-labelledby="modal-modal-title">
+      {/* Модальне вікно видалення контакту */}
+      <Modal
+        open={isOpen == 'delete' ? true : false}
+        onClose={close}
+        aria-labelledby="modal-modal-title"
+      >
         <Box className={css.box}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Are you sure to delete contact {name}?
-          </Typography>
           <Stack>
-            <Button onClick={handleDelete}>Delete</Button>
-            <Button onClick={close}>Cancel</Button>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Are you sure to delete contact <span>{name}</span>?
+            </Typography>
+          </Stack>
+          <Stack className={css.btnContainer}>
+            <Button
+              variant="contained"
+              className={css.btn}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+            <Button variant="contained" className={css.btn} onClick={close}>
+              Cancel
+            </Button>
           </Stack>
         </Box>
       </Modal>
